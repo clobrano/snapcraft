@@ -21,6 +21,7 @@ import os
 import subprocess
 
 from snapcraft.internal import common
+from snapcraft.internal.os_release_info import OSReleaseInfo
 
 
 logger = logging.getLogger(__name__)
@@ -67,7 +68,8 @@ def _get_system_libs():
         return _libraries
 
     try:
-        release = common.get_os_release_info()['VERSION_ID']
+        # release = common.get_os_release_info()['VERSION_ID']
+        release = OSReleaseInfo().from_file().get_version_id()
         lib_path = os.path.join(common.get_librariesdir(), release)
     except KeyError:
         lib_path = None
